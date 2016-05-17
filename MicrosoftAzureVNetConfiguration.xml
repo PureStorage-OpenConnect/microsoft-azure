@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NetworkConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration">
+  <VirtualNetworkConfiguration>
+    <!--
+    <Dns>
+      <DnsServers>
+        <DnsServer />
+      </DnsServers>
+    </Dns>
+    -->
+    <LocalNetworkSites>
+      <LocalNetworkSite name="PureStorageLN">
+        <!--
+        <VPNGatewayAddress>131.1.1.2</VPNGatewayAddress>
+        -->
+        <VPNGatewayAddress>40.112.252.141</VPNGatewayAddress>
+        <AddressSpace>
+          <AddressPrefix>192.168.255.0/24</AddressPrefix>
+        </AddressSpace>
+      </LocalNetworkSite>
+    </LocalNetworkSites>
+    <VirtualNetworkSites>
+      <VirtualNetworkSite name="PureStorageVN" Location="West US">
+        <AddressSpace>
+          <AddressPrefix>10.2.0.0/16</AddressPrefix>
+        </AddressSpace>
+        <Subnets>
+          <Subnet name="GatewaySubnet">
+            <AddressPrefix>10.2.32.0/28</AddressPrefix>
+          </Subnet>
+          <Subnet name="AzureVMs">
+            <AddressPrefix>10.2.0.0/19</AddressPrefix>
+          </Subnet>
+        </Subnets>
+        <Gateway profile="Small">
+          <!--
+          <VPNClientAddressPool>
+            <AddressPrefix></AddressPrefix>
+          </VPNClientAddressPool>
+          -->
+          <ConnectionsToLocalNetwork>
+            <LocalNetworkSiteRef name="PureStorageLN">
+              <Connection type="Dedicated" />
+            </LocalNetworkSiteRef>
+          </ConnectionsToLocalNetwork>
+        </Gateway>
+        <!--
+        <DnsServersRef>
+          <DnsServersRef name="" />
+        </DnsServersRef>
+        -->
+      </VirtualNetworkSite>
+    </VirtualNetworkSites>
+  </VirtualNetworkConfiguration>
+</NetworkConfiguration>

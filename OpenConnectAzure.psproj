@@ -1,0 +1,12 @@
+﻿<Project>
+  <Version>1.1</Version>
+  <FileID>c8a1f789-e435-4a99-8573-abb434573397</FileID>
+  <ProjectType>1</ProjectType>
+  <Folders />
+  <Files>
+    <File ReferenceName="" Build="2">PureStorageOpenConnectMicrosoftAzure.psd1</File>
+    <File ReferenceName="" Build="0">PureStorageOpenConnectMicrosoftAzure.psm1</File>
+  </Files>
+  <StartupScript>
+  </StartupScript>
+</Project>

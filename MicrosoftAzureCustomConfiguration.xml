@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OpenConnectMicrosoftAzure xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProviderConfiguration>
+    <Dns>
+      <DnsServers>
+        <DnsServer />
+      </DnsServers>
+    </Dns>
+  </ProviderConfiguration>
+  <FlashArrayConfiguration>
+    <Management>
+      <ct0.eth0>64.191.192.58</ct0.eth0>
+      <ct0.eth1>64.191.192.59</ct0.eth1>
+      <vir0>64.191.192.60</vir0>
+    </Management>
+    <Subnet>
+      <VLAN1>
+        <IpAddress></IpAddress>
+      </VLAN1>
+      <VLAN2>
+        <IpAddress></IpAddress>
+      </VLAN2>
+    </Subnet>
+  </FlashArrayConfiguration>
+  <AzureConfiguration>
+    <VirtualNetworkName>Azure</VirtualNetworkName>
+    <GatewayType>DyanmicRouting</GatewayType>
+    <LocalNetworkSiteName>EQX</LocalNetworkSiteName>
+  </AzureConfiguration>
+  <AzureVirtualMachineConfiguration>
+    <NetworkInterfaces>
+      <Interface1></Interface1>
+      <Interface2></Interface2>
+    </NetworkInterfaces>
+    <InstanceSize>ExtraLarge</InstanceSize>
+    <!--Required for multiple NIC support-->
+    <VMTemplate>Windows Server 2012 R2 Datacenter, January 2016</VMTemplate>
+    <Admin>Barkz</Admin>
+    <AdminPassword>PureAccelerate</AdminPassword>
+    <VMInstanceName>PureAzureVM1</VMInstanceName>
+    <ServiceName>PureAzureSvc1</ServiceName>
+    <AzureSubnet>AzureVMs</AzureSubnet>
+    <!--FUTURE <VNetStaticIP></VNetStaticIP>-->
+  </AzureVirtualMachineConfiguration>
+  <ExpressRouteConfiguration>
+    <CircuitName>PureStorageExpressRouteCircuit</CircuitName>
+    <Bandwidth>1000</Bandwidth>
+    <BillingType>MeteredData</BillingType>
+    <!-- MeteredData or UnlimitedData -->
+    <Location>Silicon Valley</Location>
+    <ProviderName>Equinix</ProviderName>
+    <!--There are two options for Sku Standard or Premium.-->
+    <Sku>Standard</Sku>
+    <BorderGatewayProtocolPeering>
+      <Private>
+        <Primary>172.19.1.4/30</Primary>
+        <Secondary>172.19.1.12/30</Secondary>
+        <VLAN>3020</VLAN>
+      </Private>
+      <Public>
+        <Primary>172.19.1.0/30</Primary>
+        <Secondary>172.19.1.8/30</Secondary>
+        <VLAN>3021</VLAN>
+      </Public>
+    </BorderGatewayProtocolPeering>
+  </ExpressRouteConfiguration>
+</OpenConnectMicrosoftAzure>
