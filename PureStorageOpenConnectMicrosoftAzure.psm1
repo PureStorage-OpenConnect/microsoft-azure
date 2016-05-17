@@ -61,9 +61,6 @@ if (-not (Get-Module -Name 'PureStoragePowerShellToolkit')) {
 #endregion
 
 #region New-PsOpenConnectConfiguration
-#
-# DEMO SCRIPT
-#
 function New-OpenConnectConfiguration() {
     [CmdletBinding()]
     Param (
@@ -90,11 +87,11 @@ function New-OpenConnectConfiguration() {
 	$public_Subnet_Secondary = $xml.OpenConnectMicrosoftAzure.ExpressRouteConfiguration.BorderGatewayProtocolPeering.Public.Secondary
 	$VLANPublic = $xml.OpenConnectMicrosoftAzure.ExpressRouteConfiguration.BorderGatewayProtocolPeering.Public.VLAN
 
-    #DEMO--New-AzureDedicatedCircuit -CircuitName $AzureCircuitName -Bandwidth $Bandwidth -BillingType $BillingType -Location $Location -ServiceProviderName $ServiceProviderName -Sku $Sku
+    New-AzureDedicatedCircuit -CircuitName $AzureCircuitName -Bandwidth $Bandwidth -BillingType $BillingType -Location $Location -ServiceProviderName $ServiceProviderName -Sku $Sku
 	$ServiceKey = (Get-AzureDedicatedCircuit).ServiceKey 
 
-	#DEMO--New-AzureBGPPeering -ServiceKey $ServiceKey -PrimaryPeerSubnet $private_Subnet_Primary -SecondaryPeerSubnet $private_Subnet_Secondary -PeerAsn $ASN -AccessType Private -VlanId $VLANPrivate
-	#DEMO--New-AzureBGPPeering -ServiceKey $ServiceKey -PrimaryPeerSubnet $public_Subnet_Primary -SecondaryPeerSubnet $public_Subnet_Secondary -PeerAsn $ASN -AccessType Public -VlanId $VLANPublic 
+	New-AzureBGPPeering -ServiceKey $ServiceKey -PrimaryPeerSubnet $private_Subnet_Primary -SecondaryPeerSubnet $private_Subnet_Secondary -PeerAsn $ASN -AccessType Private -VlanId $VLANPrivate
+	New-AzureBGPPeering -ServiceKey $ServiceKey -PrimaryPeerSubnet $public_Subnet_Primary -SecondaryPeerSubnet $public_Subnet_Secondary -PeerAsn $ASN -AccessType Public -VlanId $VLANPublic 
     
     Write-Host "Microsoft Azure Dedicated Circuit Status for"$response.Id -ForegroundColor Yellow -NoNewline
 	Get-AzureDedicatedCircuit -ServiceKey $ServiceKey
@@ -138,9 +135,6 @@ function Remove-OpenConnectConfiguration() {
 #endregion
 
 #region New-PsOpenConnectExpressRoute
-#
-# DEMO SCRIPT
-#
 function New-OpenConnectExpressRoute() {
     [CmdletBinding()]
     Param (
@@ -150,31 +144,30 @@ function New-OpenConnectExpressRoute() {
     $xml=$null
     [xml]$xml = Get-Content $ConfigurationFile
 	
-    #DEMO--Set-AzureVNetConfig -ConfigurationPath $VNetConfigXML
-	#REPORT--Get-AzureVNetConfig | Format-List
-	#ADD_CMDLET--Remove-AzureVNetConfig
+    Set-AzureVNetConfig -ConfigurationPath $VNetConfigXML
+	Get-AzureVNetConfig | Format-List
 
 	$VNetName = $xml.OpenConnectMicrosoftAzure.AzureConfiguration.VirtualNetworkName
-	#DEMO--New-AzureVNetGateway -VNetName $VNetName -GatewayType 'DynamicRouting'
+	New-AzureVNetGateway -VNetName $VNetName -GatewayType 'DynamicRouting'
 
 	$LocalNetworkSiteName = $xml.OpenConnectMicrosoftAzure.AzureConfiguration.LocalNetworkSiteName
-	#REPORT--Get-AzureVNetGateway -VNetName $VNetName
+	Get-AzureVNetGateway -VNetName $VNetName
 
-	#DEMO--Set-AzureVNetGateway -VNetName $VNetName -LocalNetworkSiteName $LocalNetworkSiteName -Connect #-Debug
-	#DEMO--Set-AzureVNetGateway -VNetName $VNetName -LocalNetworkSiteName $LocalNetworkSiteName -Disconnect
+	Set-AzureVNetGateway -VNetName $VNetName -LocalNetworkSiteName $LocalNetworkSiteName -Connect #-Debug
+	Set-AzureVNetGateway -VNetName $VNetName -LocalNetworkSiteName $LocalNetworkSiteName -Disconnect
 
     $ServiceKey = (Get-AzureDedicatedCircuit).ServiceKey 
-<#
+
     [xml]$xml = Get-Content $VNetConfigXML
 	$VPNGatewayAddressNode = $xml.NetworkConfiguration.VirtualNetworkConfiguration.LocalNetworkSites.LocalNetworkSite
 	$VPNGatewayAddressNode.VPNGatewayAddress = (Get-AzureVNetGateway -VNetName $VNetName).VIPAddress
 	$xml.Save($VNetConfigXML)
-#>
+
     Write-Host "Microsoft Azure Dedicated Circuit Link Status for"$response.Id -ForegroundColor Yellow -NoNewline
 	Get-AzureVNetConnection -VNetName $VNetName 
 	Get-AzureDedicatedCircuitLink -ServiceKey $ServiceKey
-	#DEMO--New-AzureDedicatedCircuitLink -ServiceKey $ServiceKey -VNetName $VNetName
-	#DEMO--Remove-AzureDedicatedCircuitLink -ServiceKey $ServiceKey -VNetName $VNetName
+	New-AzureDedicatedCircuitLink -ServiceKey $ServiceKey -VNetName $VNetName
+	#Remove-AzureDedicatedCircuitLink -ServiceKey $ServiceKey -VNetName $VNetName
 }
 #endregion
 
@@ -213,8 +206,8 @@ function New-OpenConnectTestVM() {
     $VMInstanceName = $xml.OpenConnectMicrosoftAzure.AzureVirtualMachineConfiguration.VmInstanceName
 	$ServiceName =  $xml.OpenConnectMicrosoftAzure.AzureVirtualMachineConfiguration.ServiceName
 	$VMTemplate = $xml.OpenConnectMicrosoftAzure.AzureVirtualMachineConfiguration.VMTemplate
-	#$Admin = $xml.OpenConnectMicrosoftAzure.AzureVirtualMachineConfiguration.Admin	
-    #$AdminPassword = (ConvertTo-SecureString -String ($xml.OpenConnectMicrosoftAzure.AzureVirtualMachineConfiguration.AdminPassword) -AsPlainText -Force)
+	$Admin = $xml.OpenConnectMicrosoftAzure.AzureVirtualMachineConfiguration.Admin	
+    $AdminPassword = (ConvertTo-SecureString -String ($xml.OpenConnectMicrosoftAzure.AzureVirtualMachineConfiguration.AdminPassword) -AsPlainText -Force)
 	$VNetName =  $xml.OpenConnectMicrosoftAzure.AzureConfiguration.VirtualNetworkName
 	$InstanceSize =  $xml.OpenConnectMicrosoftAzure.AzureVirtualMachineConfiguration.InstanceSize
     $AzureSubnet = $xml.OpenConnectMicrosoftAzure.AzureVirtualMachineConfiguration.AzureSubnet	
@@ -223,11 +216,6 @@ function New-OpenConnectTestVM() {
 	$Image = Get-AzureVMImage -ImageName $Template
     $ServiceKey = (Get-AzureDedicatedCircuit).ServiceKey 
 
-    #
-    # DEMO SCRIPT
-    #   StorageAccount[2]
-    #   GeoPrimaryLocation[2]
-    #
 	Set-AzureSubscription -SubscriptionName ((Get-AzureSubscription | Where-Object { $_.IsDefault }).SubscriptionName).ToString() -CurrentStorageAccountName ((Get-AzureStorageAccount).StorageAccountName[2]).ToString()
 	
     if( -not(Get-AzureService -ServiceName $ServiceName)) {
@@ -241,13 +229,7 @@ function New-OpenConnectTestVM() {
         New-AzureVM -ServiceName $ServiceName -VNetName $VNetName -Location ((Get-AzureStorageAccount).GeoPrimaryLocation[2]).ToString() 
 	
 
-    #ADD_CMDLET--Add-AzureNetworkInterfaceConfig -VM $VM -Name 'ISCSI-1' -SubnetName 'AzureVMs' -StaticVNetIPAddress '10.2.0.8'
-	#ADD_CMDLET--Add-AzureNetworkInterfaceConfig -VM $VM -Name 'ISCSI-2' -SubnetName 'AzureVMs' -StaticVNetIPAddress '10.2.0.9'
-    #
-    # DEMO SCRIPT
-    #   ServiceName < 15 characters
-    #	
-	#$VM | New-AzureVM -ServiceName $ServiceName -VNetName $VNetName -Location ((Get-AzureStorageAccount).GeoPrimaryLocation[2]).ToString() 
+	$VM | New-AzureVM -ServiceName $ServiceName -VNetName $VNetName -Location ((Get-AzureStorageAccount).GeoPrimaryLocation[2]).ToString() 
 	
     Write-Host "Microsoft Azure Services for"$response.Id -ForegroundColor Yellow
     Get-AzureService | Select ServiceName, Url, Location
