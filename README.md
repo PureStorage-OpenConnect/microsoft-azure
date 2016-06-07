@@ -20,9 +20,3 @@ The above cmdlets encapsulate both Azure PowerShell and Pure Storage PowerShell 
 Please use the [Issues](https://github.com/PureStorage-OpenConnect/MicrosoftAzure/issues) section to enter your questions, comments or feature requests.<br>
 
 All releases of the PowerShellToolkit will have a digitally signed MSI.<br>
-
-Thanks,<br>
-Rob Barker (aka Barkz)<br>
-Solutions Architect, Pure Storage, Inc.<br>
-@purepowershell<br>
-http://purepowershellguy.com<br>
