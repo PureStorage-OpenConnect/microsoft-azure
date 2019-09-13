@@ -1,5 +1,6 @@
 {
     "id": "microsoft-azure",
+    "name": "Microsoft Azure PowerShell module",
     "filter": "microsoft",
     "image": "http://code.purestorage.com/images/2_Microsoft%20Azure.png",
     "featured": 0,
