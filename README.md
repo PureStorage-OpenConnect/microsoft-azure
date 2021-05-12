@@ -1,3 +1,8 @@
+
+__The Open Connect for Microsoft Azure PowerShell module has been deprecated. The project remaains as a reference.__
+
+---
+
 # Pure Storage Open Connect for Microsoft Azure
 
 The Open Connect for Microsoft Azure PowerShell module can be used by Pure Storage customers and partners looking at integrating Microsoft Azure on premises or with a Cloud Exchange Provider.
